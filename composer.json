@@ -1,0 +1,19 @@
+{
+    "name": "arikaim/oauth-extension",
+    "description": "Arikaim CMS OAuth Manager Extension",
+    "keywords": ["Extension", "Arikaim CMS OAuth Manager extension","Arikaim","CMS","OAuth"],
+    "type": "arikaim-extension",
+    "license": "GPL-3.0-or-later",
+    "authors": [{
+        "name": "Konstantin Atanasov",
+        "email": "info@arikaim.com",
+        "homepage": "http://arikaim.com"
+    }],
+    "require": {
+        "php": ">=7.1",
+        "arikaim/installer": "*"
+    },
+    "extra": {
+        "path": "oauth"
+    }
+}

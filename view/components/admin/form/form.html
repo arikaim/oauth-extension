@@ -1,0 +1,20 @@
+{% if uuid is not empty %}
+    {% set ads = createModel('Ads','ads').findById(uuid) %} 
+{% endif %}
+
+<form class="ui equal width form" id="ads_form">  
+    <input type="hidden" name="uuid" id="uuid" value="{{ uuid }}">    
+    <div class="field required">
+        <label>{{ fields.title.label }}</label>
+        <input type="text" name="title" id="title" {{ fields.title.placeholder|attr('placeholder') }} value="{{ ads.title }}">  
+    </div> 
+    <div class="field required">
+        <label>{{ fields.code.label }}</label>
+        <textarea name="code" id="code" rows="10" cols="10" {{ fields.code.placeholder|attr('placeholder') }}>{{ ads.code }}</textarea>        
+    </div>  
+    <div class="field">
+        <label>{{ fields.description.label }}</label>
+        <textarea name="description" id="description" rows="2" cols="2" {{ fields.description.placeholder|attr('placeholder') }}>{{ ads.description }}</textarea>        
+    </div>                      
+    {{ component('components:form.footer') }}   
+</form>

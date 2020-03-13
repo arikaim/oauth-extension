@@ -1,0 +1,19 @@
+{% set ads = createModel('Ads','ads') %}
+{% if selected is not empty %}
+{% set item_selected = ads.findById(selected) %}
+{% endif %}
+{% set id = id|default('ads_dropdown') %}
+<div class="ui dropdown icon basic button {{ class }}" {{ title|attr('title') }} {{ id|attr('id') }}>   
+    <i class="icon ad"></i>
+    <div class="text">
+        {{ item_selected.title|default(labels.choose) }}
+    </div>  
+    <i class="icon dropdown"></i> 
+    <div class="menu">        
+        {% for item in ads.get() %}
+        <div class="item" data-value="{{ item.uuid }}">          
+            {{ item.title }}
+        </div>   
+        {% endfor %}          
+    </div>
+</div>

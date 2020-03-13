@@ -1,0 +1,18 @@
+{
+    "title": "OAuth Manager",
+    "name": "oauth",
+    "package-type": "extension",
+    "type": "user",
+    "description": "Manage OAuth 1 and OAuth 2 access tokens and authorization.",
+    "short-description": "Oauth Authorization Manager.",
+    "version": "1.0.1",
+    "position": "4",
+    "repository": "https://github.com/arikaim/oauth-extension.git",
+    "admin-menu": {        
+        "title": "OAuth",
+        "icon": "user lock",
+        "page-title": "OAuth Manager",
+        "page-icon": "user lock",       
+        "component": "oauth::admin"
+    }
+}
