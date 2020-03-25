@@ -1,12 +1,12 @@
 {
     "labels": {
-        "view": "View",       
+        "view": "Access Tokens",       
         "settings": "Setting"
     },
     "messages": {
         "remove": {
             "title": "Confirm Remove",
-            "content": "Confirm remove ad '<b><% title %></b>'."
+            "content": "Confirm remove token."
         }
     }    
 }

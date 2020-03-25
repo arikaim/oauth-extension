@@ -1,4 +1,12 @@
 {
+    "include": {
+        "js": [
+            "components:search",
+            "oauth::oauth",
+            "system:order",
+            "system:admin.drivers"
+        ]
+    },
     "access": {
         "auth": "session",
         "permission": "ControlPanel:full"           

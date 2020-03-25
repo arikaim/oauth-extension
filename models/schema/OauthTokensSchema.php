@@ -7,7 +7,7 @@
  * @license     http://www.arikaim.com/license
  * 
 */
-namespace Arikaim\Extensions\Ads\Models\Schema;
+namespace Arikaim\Extensions\Oauth\Models\Schema;
 
 use Arikaim\Core\Db\Schema;
 
@@ -35,14 +35,19 @@ class OauthTokensSchema extends Schema
         $table->id();      
         $table->prototype('uuid'); 
         $table->status();           
-        $table->string('access_token')->nullable(false);   
-        $table->string('token_type')->nullable(true);  
+        $table->string('access_token')->nullable(false);        
+        $table->integer('type')->nullable(true)->default(1);
         $table->string('resource_owner_id')->nullable(true);  
-        $table->string('refresh_token')->nullable(false);  
+        $table->string('refresh_token')->nullable(true);  
         $table->string('driver')->nullable(false);   
         $table->userId();
         $table->dateCreated();
-        $table->date('date_expired');
+        $table->dateExpired();
+        // index
+        $table->index('access_token');
+        $table->index('resource_owner_id');
+        $table->unique(['access_token','driver']);
+        $table->unique(['resource_owner_id','driver']);
     }
 
     /**

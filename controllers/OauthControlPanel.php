@@ -7,7 +7,7 @@
  * @license     http://www.arikaim.com/license
  * 
 */
-namespace Arikaim\Extensions\Ads\Controllers;
+namespace Arikaim\Extensions\Oauth\Controllers;
 
 use Arikaim\Core\Controllers\ControlPanelApiInterface;
 use Arikaim\Core\Controllers\ApiController;
@@ -16,7 +16,7 @@ use Arikaim\Core\Db\Model;
 use Arikaim\Core\Controllers\Traits\Status;
 
 /**
- * Ads control panel controller
+ * Oauth control panel controller
 */
 class OauthControlPanel extends ApiController implements ControlPanelApiInterface
 {
@@ -29,7 +29,7 @@ class OauthControlPanel extends ApiController implements ControlPanelApiInterfac
      */
     public function init()
     {
-        $this->loadMessages('ads::admin.messages');
+        $this->loadMessages('oauth::admin.messages');
     }
 
     /**
@@ -47,75 +47,7 @@ class OauthControlPanel extends ApiController implements ControlPanelApiInterfac
     }
 
     /**
-     *  Create new ad
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
-    */
-    public function addController($request, $response, $data) 
-    {       
-        $this->requireControlPanelPermission();
-        
-        $this->onDataValid(function($data) {            
-            $model = Model::OauthTokens('oauth');
-
-            if (is_object($model->findByColumn($data['title'],'title')) == true) {
-                $this->error('errors.exist');
-                return;
-            }
-            $newModel = $model->createAd($data['title'],$data['code'],$data['description']);
-                    
-            $this->setResponse(is_object($newModel),function() use($newModel) {                                
-                $this
-                    ->message('add')
-                    ->field('uuid',$newModel->uuid);                         
-            },'errors.add');
-        });
-        $data           
-            ->addRule('text:min=2','tags')           
-            ->validate();       
-    }
-
-    /**
-     * Update ad
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
-    */
-    public function updateController($request, $response, $data) 
-    {       
-        $this->requireControlPanelPermission();
-        
-        $this->onDataValid(function($data) {
-            $uuid = $data->get('uuid');
-            $model = Model::Ads('ads');
-
-            $exists = $model->where('title','=',$data['title'])->where('uuid','<>',$uuid)->exists();
-            if ($exists == true) {
-                $this->error('errors.exist');
-                return;
-            }
-
-            $ad = $model->findById($uuid);
-            $result = $ad->update($data->toArray());
-               
-            $this->setResponse($result,function() use($model) {                                
-                $this
-                    ->message('update')
-                    ->field('uuid',$model->uuid);                         
-            },'errors.update');
-        });
-        $data           
-            ->addRule('text:min=2','title')                        
-            ->validate();       
-    }
-   
-    /**
-     * Delete ad
+     * Delete token
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
@@ -128,7 +60,7 @@ class OauthControlPanel extends ApiController implements ControlPanelApiInterfac
 
         $this->onDataValid(function($data) {
             $uuid = $data->get('uuid');
-            $model = Model::Ads('ads')->findByid($uuid);
+            $model = Model::OauthTokens('oauth')->findByid($uuid);
 
             $result = $model->delete();
             $this->setResponse($result,function() use($uuid) {            
@@ -139,5 +71,4 @@ class OauthControlPanel extends ApiController implements ControlPanelApiInterfac
         }); 
         $data->validate();
     }
-
 }

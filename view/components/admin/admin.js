@@ -6,19 +6,11 @@
  */
 'use strict';
 
-function AdsControlPanel() {
+function OauthControlPanel() {
     var self = this;
 
     this.delete = function(uuid, onSuccess, onError) {
-        return arikaim.delete('/api/ads/admin/delete/' + uuid,onSuccess,onError);          
-    };
-
-    this.add = function(formId, onSuccess, onError) {
-        return arikaim.post('/api/ads/admin/add',formId,onSuccess,onError);          
-    };
-
-    this.update = function(formId, onSuccess, onError) {
-        return arikaim.put('/api/ads/admin/update',formId,onSuccess,onError);          
+        return arikaim.delete('/api/oauth/admin/delete/' + uuid,onSuccess,onError);          
     };
 
     this.setStatus = function(uuid, status, onSuccess, onError) { 
@@ -27,7 +19,7 @@ function AdsControlPanel() {
             uuid: uuid 
         };
         
-        return arikaim.put('/api/ads/admin/status',data,onSuccess,onError);           
+        return arikaim.put('/api/oauth/admin/status',data,onSuccess,onError);           
     };
 
     this.init = function() {    
@@ -35,8 +27,8 @@ function AdsControlPanel() {
     };
 }
 
-var adsControlPanel = new AdsControlPanel();
+var oauthControlPanel = new OauthControlPanel();
 
 arikaim.page.onReady(function() {
-    adsControlPanel.init();
+    oauthControlPanel.init();
 });

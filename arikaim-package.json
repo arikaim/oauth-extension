@@ -1,8 +1,9 @@
 {
     "title": "OAuth Manager",
     "name": "oauth",
+    "class": "Oauth",
     "package-type": "extension",
-    "type": "user",
+    "type": "system",
     "description": "Manage OAuth 1 and OAuth 2 access tokens and authorization.",
     "short-description": "Oauth Authorization Manager.",
     "version": "1.0.1",

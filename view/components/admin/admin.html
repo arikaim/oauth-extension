@@ -1,12 +1,12 @@
 {%  set items = [ 
-        { id: 'ads_list_tab', title: labels.view, icon: 'list', component: 'ads::admin.menu', active: true },                 
-        { id: 'ads_settings_tab', title: labels.settings, component: 'ads::admin.settings', icon: 'cogs' }    
+        { id: 'oauth_list_tab', title: labels.view, icon: 'list', component: 'oauth::admin.view', active: true },                 
+        { id: 'oauth_settings_tab', title: labels.settings, component: 'oauth::admin.settings', icon: 'cogs' }    
     ] 
 %}
 
 {{  component('components:tabs',{ 
         items: items,
-        menu: { component: 'system:admin.extensions.menu.actions', extension: 'ads' },
-        content: { component: 'ads::admin.menu' } 
+        menu: { component: 'system:admin.extensions.menu.actions', extension: 'oauth' },
+        content: { component: 'oauth::admin.view' } 
     })
 }}

@@ -1,0 +1,13 @@
+{
+    "columns": {        
+        "action": "Action",       
+        "status": "Status",
+        "token": "Token",
+        "user": "User",
+        "type": "Type",
+        "resource": "Resource Id",
+        "provider": "Provider", 
+        "created": "Date Created",
+        "expired": "Date Expired"        
+    }
+}

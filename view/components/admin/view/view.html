@@ -1,0 +1,40 @@
+{% import systemMacro('orderBy.html') as order %}
+{% set order_by = getOrderBy('oauth') %}
+
+<div class="ui stackable text menu">
+    <div class="item right floated">       
+        {{ component('components:paginator.dropdown',{ namespace: 'oauth' }) }}
+    </div>
+</div>
+<div class="ui mt-2">
+    <table class="ui compact stackable selectable borderless basic table">
+        <thead class="table-head">
+            <tr>              
+                <th class="one wide collapsing left aligned">{{ columns.action }}</th>
+                <th class="collapsing two wide">                   
+                    {{ order.orderByLink('oauth','status') }}
+                    {{ columns.status }}                   
+                </th>                                     
+                <th class="one wide">
+                    {{ order.orderByLink('oauth','date_created') }}            
+                    {{ columns.created }}
+                </th>
+                <th class="one wide">
+                    {{ order.orderByLink('oauth','date_expired') }}            
+                    {{ columns.expired }}
+                </th>
+                <th class="collapsing">{{ columns.token }}</th>   
+                <th class="collapsing two wide">{{ columns.user }}</th>   
+                <th class="collapsing">{{ columns.resource }}</th>             
+                <th class="one wide">{{ columns.provider }}</th>      
+                <th class="one wide">{{ columns.type }}</th>              
+            </tr>
+        </thead>
+        <tbody id="oauth_rows" component="oauth::admin.view.rows" namespace="oauth">
+            {{ component('oauth::admin.view.rows') }} 
+        </tbody>
+    </table> 
+    <div id="paginator">      
+        {{ component("components:paginator",{ namespace: 'oauth' }) }}
+    </div>
+</div>

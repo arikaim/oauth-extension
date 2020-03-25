@@ -1,0 +1,11 @@
+{
+    "labels": {
+        "empty": "..",
+        "status": {
+            "active": "active",
+            "disabled": "disabled"
+        },
+        "expired": "Expired",
+        "oauth": "OAuth"            
+    }
+}

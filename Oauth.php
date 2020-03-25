@@ -7,7 +7,7 @@
  * @license     http://www.arikaim.com/license
  * 
 */
-namespace Arikaim\Extensions\Ads;
+namespace Arikaim\Extensions\Oauth;
 
 use Arikaim\Core\Extension\Extension;
 
@@ -24,13 +24,18 @@ class Oauth extends Extension
     public function install()
     {
         // Control Panel
-        $this->addApiRoute('POST','/api/ads/admin/add','AdsControlPanel','add','session');   
-        $this->addApiRoute('PUT','/api/ads/admin/update','AdsControlPanel','update','session');   
-        $this->addApiRoute('DELETE','/api/ads/admin/delete/{uuid}','AdsControlPanel','delete','session');      
-        $this->addApiRoute('PUT','/api/ads/admin/status','AdsControlPanel','setStatus','session');    
-                         
+        $this->addApiRoute('DELETE','/api/oauth/admin/delete/{uuid}','OauthControlPanel','delete','session');      
+        $this->addApiRoute('PUT','/api/oauth/admin/status','OauthControlPanel','setStatus','session');    
+        
+        // Pages
+        $this->addPageRoute('/oauth/callback/{provider}[/{action}]','OauthPages','callback','oauth>oauth.success',null,'oauth.callback',false);
+        $this->addPageRoute('/oauth/authentication/{provider}[/{action}]','OauthPages','authentication','oauth>oauth.authentication',null,'oauth.authentication',false);
+        
         // Db tables
         $this->createDbTable('OauthTokensSchema');  
+
+        // Events
+        $this->registerEvent('oauth.auth','OAuth authorize');
     }
     
     /**

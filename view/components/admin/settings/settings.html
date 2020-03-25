@@ -1,0 +1,6 @@
+{% set drivers = service('driver').getList('oauth') %}
+{% set current = getOption('oauth.current') %}
+{% set buttons = [
+    { icon: "unlock", class: "auth-button", title: labels.auth }
+] %}
+{{ component('system:admin.drivers.list',{ category: 'oauth', current : current, buttons: buttons }) }}
