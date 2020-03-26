@@ -61,12 +61,13 @@ class OauthPages extends Controller
         }
         // OAuth 2
         if ($driver->getType() == 2) {
-            $state = $this->getQueryParam($request,'state');    
+            $state = $this->getQueryParam($request,'state'); 
             if ($state != $oauthModule->getState() || empty($state) == true) {
                 $oauthModule->clearState();
-              
-                return $this->pageLoad($request,$response,$data,'oauth>oauth.error'); 
+
+                return $this->pageLoad($request,$response,$data,'oauth>oauth.error');                
             } 
+        
             // get token
             $code = $this->getQueryParam($request,'code');  
             $token = $driver->getInstance()->getAccessToken('authorization_code',[
