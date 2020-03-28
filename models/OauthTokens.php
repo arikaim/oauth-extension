@@ -55,6 +55,7 @@ class OauthTokens extends Model implements UserProviderInterface
      */
     protected $fillable = [
         'access_token',
+        'access_token_secret',
         'type',
         'resource_owner_id',
         'refresh_token',
@@ -197,6 +198,23 @@ class OauthTokens extends Model implements UserProviderInterface
     }
 
     /**
+     * Get user token data
+     *
+     * @param integer $userId
+     * @param string $driver
+     * @return Model|false
+     */
+    public function getUserToken($userId, $driver, $type = Self::OAUTH1)
+    {
+        $model = $this->where('user_id','=',$userId)
+            ->where('driver','=',$driver)
+            ->where('type','=',$type)
+            ->first();
+
+        return (is_object($model) == true) ? $model : false;
+    }
+
+    /**
      * Find token by resource id 
      *
      * @param string $resouceId
@@ -233,6 +251,7 @@ class OauthTokens extends Model implements UserProviderInterface
      * Save access token
      *
      * @param string $token
+     * @param string $tokenSecret
      * @param string|null $refreshToken
      * @param string $driver
      * @param string resourceOwnerId
@@ -240,7 +259,7 @@ class OauthTokens extends Model implements UserProviderInterface
      * @param integer $type
      * @return Model|false
      */
-    public function saveToken($token, $driver, $resourceOwnerId, $expire = null, $type = Self::OAUTH1, $refreshToken = null)
+    public function saveToken($token, $tokenSecret, $driver, $resourceOwnerId, $expire = null, $type = Self::OAUTH1, $refreshToken = null)
     {
         $model = $this->findByResourceId($resourceOwnerId,$driver);
         if ($model !== false) {
@@ -251,12 +270,13 @@ class OauthTokens extends Model implements UserProviderInterface
         }
 
         return $this->create([
-            'access_token'      => $token,
-            'refresh_token'     => $refreshToken,
-            'driver'            => $driver,
-            'type'              => $type,
-            'date_expired'      => $expire,
-            'resource_owner_id' => $resourceOwnerId
+            'access_token'        => $token,
+            'access_token_secret' => $tokenSecret,
+            'refresh_token'       => $refreshToken,
+            'driver'              => $driver,
+            'type'                => $type,
+            'date_expired'        => $expire,
+            'resource_owner_id'   => $resourceOwnerId
         ]);
     }
 }

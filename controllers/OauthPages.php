@@ -52,6 +52,7 @@ class OauthPages extends Controller
             $tokenCredentials = $driver->getInstance()->getTokenCredentials($temporaryCredentials,$oauthToken,$oauthVerifier);
             $oauthModule->clearTemporaryCredentials();
             $accessToken = $tokenCredentials->getIdentifier();
+            $tokenSecret = $tokenCredentials->getSecret();
             $user = $driver->getInstance()->getUserDetails($tokenCredentials);
             $userData = $user->getIterator()->getArrayCopy();
             $resourceOwnerId = $driver->getInstance()->getUserUid($tokenCredentials);
@@ -77,12 +78,13 @@ class OauthPages extends Controller
             $resourceOwnerId = $user->getId();
             $userData = $user->toArray();
             $accessToken = $token->getToken();
+            $tokenSecret = null;
             $refreshToken = $token->getRefreshToken();
             $expireDate = $token->getExpires();
             $resourceInfo = $driver->getResourceInfo($token);
         }
       
-        $tokens->saveToken($accessToken,$provider,$resourceOwnerId,$expireDate,$driver->getType(),$refreshToken);
+        $tokens->saveToken($accessToken,$tokenSecret,$provider,$resourceOwnerId,$expireDate,$driver->getType(),$refreshToken);
     
         // dispatch event
         $eventData = [

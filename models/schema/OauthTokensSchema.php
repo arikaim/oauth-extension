@@ -35,7 +35,8 @@ class OauthTokensSchema extends Schema
         $table->id();      
         $table->prototype('uuid'); 
         $table->status();           
-        $table->string('access_token')->nullable(false);        
+        $table->string('access_token')->nullable(false); 
+        $table->string('access_token_secret')->nullable(true);                
         $table->integer('type')->nullable(true)->default(1);
         $table->string('resource_owner_id')->nullable(true);  
         $table->string('refresh_token')->nullable(true);  
@@ -47,6 +48,7 @@ class OauthTokensSchema extends Schema
         $table->index('access_token');
         $table->index('resource_owner_id');
         $table->unique(['access_token','driver']);
+        $table->unique(['user_id','driver','type']);
         $table->unique(['resource_owner_id','driver']);
     }
 
@@ -57,7 +59,10 @@ class OauthTokensSchema extends Schema
      * @return void
      */
     public function update($table) 
-    {              
+    {         
+        if ($this->hasColumn('access_token_secret') == false) {
+            $table->string('access_token_secret')->nullable(true);    
+        }     
     }
 
     /**

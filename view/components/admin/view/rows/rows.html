@@ -14,10 +14,11 @@
                     </button>  
                 </div>          
             </td>  
-            <td>                
-                {{ component('components:status.dropdown',{ status: item.status, uuid: item.uuid, skip: [2,3,4,5] }) }}    
+            <td>                                   
                 {% if item.expired == 1 %}
-                    <i class="exclamation circle orange icon ml-3" title="{{ labels.expired }}"></i>               
+                    <div class="ui horizontal orange basic label">{{ labels.expired }}</div>                  
+                {% else %}          
+                    {{ component('components:status.dropdown',{ status: item.status, uuid: item.uuid, skip: [2,3,4,5] }) }} 
                 {% endif %}           
             </td>
             <td>{{ item.date_created|dateFormat }}</td>
