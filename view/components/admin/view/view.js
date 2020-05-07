@@ -36,6 +36,14 @@ function OauthTokensView() {
             }
         });    
 
+        arikaim.ui.button('.view-token',function(element) {
+            var token = $(element).attr('token');
+            var uuid = $(element).attr('uuid');            
+            $('#token_' + uuid).html(token);
+
+            return true;
+        });  
+
         arikaim.ui.button('.delete-button',function(element) {
             var uuid = $(element).attr('uuid');
         
