@@ -40,7 +40,8 @@ class OauthTokensSchema extends Schema
         $table->integer('type')->nullable(true)->default(1);
         $table->string('resource_owner_id')->nullable(true);  
         $table->string('refresh_token')->nullable(true);  
-        $table->string('driver')->nullable(false);   
+        $table->string('driver')->nullable(false);  
+        $table->text('scopes')->nullable(true);           
         $table->userId();
         $table->dateCreated();
         $table->dateExpired();
@@ -62,6 +63,9 @@ class OauthTokensSchema extends Schema
     {         
         if ($this->hasColumn('access_token_secret') == false) {
             $table->string('access_token_secret')->nullable(true);    
+        }   
+        if ($this->hasColumn('scopes') == false) {
+            $table->text('scopes')->nullable(true);     
         }     
     }
 
