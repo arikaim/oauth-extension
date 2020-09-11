@@ -33,7 +33,7 @@ class OauthPages extends Controller
         $action = $data->get('action',$oauthModule->getAction()); 
 
         $driver = $this->get('driver')->create($provider);
-        if (is_object($driver) == false) {
+        if (\is_object($driver) == false) {
             return $this->pageLoad($request,$response,$data,'oauth>oauth.error'); 
         }
         $oauthModule->clearAction();
@@ -118,7 +118,7 @@ class OauthPages extends Controller
         $action = $data->get('action',null);
       
         $driver = $this->get('driver')->create($provider,['action' => $action]);
-        if (is_object($driver) == false) {
+        if (\is_object($driver) == false) {
             return $this->pageLoad($request,$response,$data,'oauth>oauth.error'); 
         }
         $oauthModule = new Oauth();

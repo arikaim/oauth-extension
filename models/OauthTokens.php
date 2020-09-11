@@ -84,7 +84,7 @@ class OauthTokens extends Model implements UserProviderInterface
         $driver = (isset($credentials['driver']) == true) ? $credentials['driver'] : null;
 
         $model = $this->getToken($token,$driver);
-        if (is_object($model) == false) {
+        if (\is_object($model) == false) {
             return false;
         }
 
@@ -128,7 +128,7 @@ class OauthTokens extends Model implements UserProviderInterface
         $user = new Users();
         $model = $user->findById($id);
         
-        if (is_object($model) == false) {
+        if (\is_object($model) == false) {
             return false;
         }
 
@@ -166,7 +166,7 @@ class OauthTokens extends Model implements UserProviderInterface
             return false;
         }
 
-        return (time() > $this->date_expired);
+        return (\time() > $this->date_expired);
     }
 
     /**
@@ -180,7 +180,7 @@ class OauthTokens extends Model implements UserProviderInterface
     {
         $model = $this->where('access_token','=',$token)->where('driver','=',$driver)->first();
 
-        return is_object($model);
+        return \is_object($model);
     }
 
     /**
@@ -194,7 +194,7 @@ class OauthTokens extends Model implements UserProviderInterface
     {
         $model = $this->where('access_token','=',$token)->where('driver','=',$driver)->first();
 
-        return (is_object($model) == true) ? $model : false;
+        return (\is_object($model) == true) ? $model : false;
     }
 
     /**
@@ -211,7 +211,7 @@ class OauthTokens extends Model implements UserProviderInterface
             ->where('type','=',$type)
             ->first();
 
-        return (is_object($model) == true) ? $model : false;
+        return (\is_object($model) == true) ? $model : false;
     }
 
     /**
@@ -225,7 +225,7 @@ class OauthTokens extends Model implements UserProviderInterface
     {
         $model = $this->where('resource_owner_id','=',$resouceId)->where('driver','=',$driver)->first();
 
-        return (is_object($model) == true) ? $model : false;
+        return (\is_object($model) == true) ? $model : false;
     }
 
     /**
@@ -239,7 +239,7 @@ class OauthTokens extends Model implements UserProviderInterface
     public function saveUserId($accessToken, $driver, $userId)
     {
         $token = $this->getToken($accessToken, $driver);
-        if (is_object($token) == false) {           
+        if (\is_object($token) == false) {           
             return false;
         }
         $token->user_id = $userId;
