@@ -1,0 +1,6 @@
+<button class="uk-button oauth-authorize-button {{ class }}" provider="{{ provider }}" {{ action|attr('action') }} {{ redirect|attr('redirect') }} >
+    {% if icon is not empty %}
+    <span uk-icon="icon: {{ icon }}"></span>
+    {% endif %}
+    {{ (hide_title != true) ? title : '' }}
+</button>

@@ -21,7 +21,7 @@ class OauthTokensSchema extends Schema
      *
      * @var string
      */
-    protected $tableName = "oauth_tokens";
+    protected $tableName = 'oauth_tokens';
 
     /**
      * Create table
