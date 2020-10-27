@@ -80,8 +80,8 @@ class OauthTokens extends Model implements UserProviderInterface
      */
     public function getUserByCredentials(array $credentials)
     {
-        $token = (isset($credentials['token']) == true) ? $credentials['token'] : null;
-        $driver = (isset($credentials['driver']) == true) ? $credentials['driver'] : null;
+        $token = $credentials['token'] ?? null;
+        $driver = $credentials['driver'] ?? null;
 
         $model = $this->getToken($token,$driver);
         if (\is_object($model) == false) {

@@ -10,7 +10,6 @@
             "arikaim-ui",          
             "fomantic",
             "tailwind"
-        ],
-        "loader": "components:loader.dimmer.light"
+        ]        
     }
 }

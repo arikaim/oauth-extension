@@ -10,7 +10,7 @@
 namespace Arikaim\Extensions\Oauth\Controllers;
 
 use Arikaim\Core\Controllers\ControlPanelApiInterface;
-use Arikaim\Core\Controllers\ApiController;
+use Arikaim\Core\Controllers\ControlPanelApiController;
 use Arikaim\Core\Db\Model;
 
 use Arikaim\Core\Controllers\Traits\Status;
@@ -18,7 +18,7 @@ use Arikaim\Core\Controllers\Traits\Status;
 /**
  * Oauth control panel controller
 */
-class OauthControlPanel extends ApiController implements ControlPanelApiInterface
+class OauthControlPanel extends ControlPanelApiController implements ControlPanelApiInterface
 {
     use Status;
 
@@ -35,10 +35,9 @@ class OauthControlPanel extends ApiController implements ControlPanelApiInterfac
     /**
      * Constructor
      * 
-     * @param Container $container
-     * @return void
+     * @param Container|null $container
      */
-    public function __construct($container)
+    public function __construct($container = null)
     {
         parent::__construct($container);
         
@@ -56,8 +55,6 @@ class OauthControlPanel extends ApiController implements ControlPanelApiInterfac
     */
     public function deleteController($request, $response, $data)
     { 
-        $this->requireControlPanelPermission();
-
         $this->onDataValid(function($data) {
             $uuid = $data->get('uuid');
             $model = Model::OauthTokens('oauth')->findByid($uuid);
