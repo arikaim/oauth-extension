@@ -138,6 +138,6 @@ class OauthPages extends Controller
             $oauthModule->saveState($driver->getInstance()->getState());
         }
        
-        return $response->withHeader('Location',$authUrl);
+        return $this->withRedirect($response,$authUrl);
     }
 }
