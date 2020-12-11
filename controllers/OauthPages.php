@@ -28,13 +28,14 @@ class OauthPages extends Controller
     */
     public function callback($request, $response, $data) 
     { 
+        $language = $this->getPageLanguage($data);
         $oauthModule = new Oauth();
         $provider = $data->get('provider'); 
         $action = $data->get('action',$oauthModule->getAction()); 
 
         $driver = $this->get('driver')->create($provider);
         if (\is_object($driver) == false) {
-            return $this->pageLoad($request,$response,$data,'oauth>oauth.error'); 
+            return $this->pageLoad($request,$response,$data,'oauth>oauth.error',$language); 
         }
         $oauthModule->clearAction();
         $tokens = Model::OauthTokens('oauth');
@@ -44,7 +45,7 @@ class OauthPages extends Controller
             $oauthToken = $this->getQueryParam($request,'oauth_token');
             $oauthVerifier = $this->getQueryParam($request,'oauth_verifier');
             if (empty($oauthToken) == true) {
-                return $this->pageLoad($request,$response,$data,'oauth>oauth.error'); 
+                return $this->pageLoad($request,$response,$data,'oauth>oauth.error',$language); 
             }
 
             $temporaryCredentials = $oauthModule->getTemporaryCredentials();
@@ -66,7 +67,7 @@ class OauthPages extends Controller
             if ($state != $oauthModule->getState() || empty($state) == true) {
                 $oauthModule->clearState();
 
-                return $this->pageLoad($request,$response,$data,'oauth>oauth.error');                
+                return $this->pageLoad($request,$response,$data,'oauth>oauth.error',$language);                
             } 
         
             // get token
@@ -101,7 +102,7 @@ class OauthPages extends Controller
             $data['redirect_url'] = $this->get('options')->get('users.login.redirect');
         }
 
-        return $this->pageLoad($request,$response,$data,'oauth>oauth.success'); 
+        return $this->pageLoad($request,$response,$data,'oauth>oauth.success',$language); 
     }
 
     /**
