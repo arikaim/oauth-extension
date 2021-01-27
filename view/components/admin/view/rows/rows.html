@@ -1,44 +1,42 @@
-{% component 'components:view.rows' %}
-    {% set model = createModel('OauthTokens','oauth').where('id','>',0) %}
-    {{ createSearch('access_token','oauth','ilike:%{value}%','and') }}
-    {% set model = applySearch(model,'oauth') %}
-    {% set model = applyOrderBy(model,'oauth') %}
-    {% set items = paginate(model,'oauth') %}
+{% set model = createModel('OauthTokens','oauth').where('id','>',0) %}
+{{ createSearch('access_token','oauth','ilike:%{value}%','and') }}
+{% set model = applySearch(model,'oauth') %}
+{% set model = applyOrderBy(model,'oauth') %}
+{% set items = paginate(model,'oauth') %}
 
-    {% for item in items.getItems() %}  
-        <tr id="{{ item.uuid }}">             
-            <td>  
-                <div class="ui buttons">                                                   
-                    <button class="ui icon mini basic button delete-button" uuid="{{ item.uuid }}" data-title="{{ item.title }}">
-                        <i class="icon trash orange"></i>
-                    </button>  
-                    <button class="ui mini icon basic button view-token" token="{{ item.access_token }}" uuid="{{ item.uuid }}">
-                        <i class="icon eye outline"></i>
-                    </button>
-                </div>          
-            </td>  
-            <td>                                   
-                {% if item.expired == 1 %}
-                    <div class="ui horizontal orange basic label">{{ labels.expired }}</div>                  
-                {% else %}          
-                    {{ component('components:status.dropdown',{ status: item.status, uuid: item.uuid, skip: [2,3,4,5] }) }} 
-                {% endif %}           
-            </td>
-            <td>{{ item.date_created|dateFormat }}</td>
-            <td>{{ item.date_expired|dateFormat }}</td>          
-            <td id="token_{{ item.uuid }}">              
-                {{ item.access_token|mask(15) }}              
-            </td>    
-            <td>
-                {{ (item.user.user_name is empty) ? item.user.email : item.user.user_name }}
-            </td>                      
-            <td>{{ item.resource_owner_id }}</td>
-            <td>{{ item.driver }}</td>  
-            <td>
-                <div class="ui horizontal basic blue label">
-                    {{ labels.oauth }}{{ item.type }}
-                </div>
-            </td>         
-        </tr>
-    {% endfor %}
-{% endcomponent %}
+{% for item in items.getItems() %}  
+    <tr id="{{ item.uuid }}">             
+        <td>  
+            <div class="ui buttons">                                                   
+                <button class="ui icon mini basic button delete-button" uuid="{{ item.uuid }}" data-title="{{ item.title }}">
+                    <i class="icon trash orange"></i>
+                </button>  
+                <button class="ui mini icon basic button view-token" token="{{ item.access_token }}" uuid="{{ item.uuid }}">
+                    <i class="icon eye outline"></i>
+                </button>
+            </div>          
+        </td>  
+        <td>                                   
+            {% if item.expired == 1 %}
+                <div class="ui horizontal orange basic label">{{ labels.expired }}</div>                  
+            {% else %}          
+                {{ component('components:status.dropdown',{ status: item.status, uuid: item.uuid, skip: [2,3,4,5] }) }} 
+            {% endif %}           
+        </td>
+        <td>{{ item.date_created|dateFormat }}</td>
+        <td>{{ item.date_expired|dateFormat }}</td>          
+        <td id="token_{{ item.uuid }}">              
+            {{ item.access_token|mask(15) }}              
+        </td>    
+        <td>
+            {{ (item.user.user_name is empty) ? item.user.email : item.user.user_name }}
+        </td>                      
+        <td>{{ item.resource_owner_id }}</td>
+        <td>{{ item.driver }}</td>  
+        <td>
+            <div class="ui horizontal basic blue label">
+                {{ labels.oauth }}{{ item.type }}
+            </div>
+        </td>         
+    </tr>
+{% endfor %}

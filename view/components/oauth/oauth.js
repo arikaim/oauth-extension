@@ -30,9 +30,7 @@ function Oauth() {
         authWindow = window.open(this.getAuthUrl(provider,action),'auth',settings);
     };
 
-    this.redirect = function() {
-        console.log(redirectUrl);
-        
+    this.redirect = function() {  
         if (isEmpty(redirectUrl) == false) {
             arikaim.loadUrl(redirectUrl,true);
         }

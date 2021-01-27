@@ -112,7 +112,7 @@ class OauthTokens extends Model implements UserProviderInterface
      * @param string $password
      * @return bool
      */
-    public function verifyPassword($password)
+    public function verifyPassword(string $password): bool
     {
         return false;
     }
@@ -138,7 +138,7 @@ class OauthTokens extends Model implements UserProviderInterface
     /**
      * Get user relation
      *
-     * @return mixed
+     * @return relation|null
      */
     public function user()
     {      
@@ -160,7 +160,7 @@ class OauthTokens extends Model implements UserProviderInterface
      *
      * @return boolean
      */
-    public function isExpired()
+    public function isExpired(): bool
     {
         if (empty($this->date_expired) == true) {
             return false;
