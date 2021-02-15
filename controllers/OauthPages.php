@@ -129,7 +129,7 @@ class OauthPages extends Controller
         if ($driver->getType() == 1) {
             $credentials = $driver->getInstance()->getTemporaryCredentials();
             $oauthModule->saveTemporaryCredentials($credentials);
-    
+            
             $authUrl = $driver->getInstance()->getAuthorizationUrl($credentials);  
         }
 

@@ -7,8 +7,7 @@
 'use strict';
 
 function OauthControlPanel() {
-    var self = this;
-
+  
     this.delete = function(uuid, onSuccess, onError) {
         return arikaim.delete('/api/oauth/admin/delete/' + uuid,onSuccess,onError);          
     };
@@ -29,6 +28,6 @@ function OauthControlPanel() {
 
 var oauthControlPanel = new OauthControlPanel();
 
-arikaim.page.onReady(function() {
+$(document).ready(function() {
     oauthControlPanel.init();
 });

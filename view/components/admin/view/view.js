@@ -8,8 +8,22 @@
 
 function OauthTokensView() {
     var self = this;
+    this.messages = null;
+
+    this.loadMessages = function() {
+        if (isObject(this.messages) == true) {
+            return;
+        }
+
+        arikaim.component.loadProperties('oauth::admin',function(params) { 
+            self.messages = params.messages;
+        }); 
+    };
+
 
     this.init = function() {
+        this.loadMessages();
+
         order.init('oauth_rows','oauth::admin.view.rows','oauth');        
         paginator.init('oauth_rows');   
 
@@ -26,9 +40,6 @@ function OauthTokensView() {
     };
 
     this.initRows = function() {
-        var component = arikaim.component.get('oauth::admin');
-        var removeMessage = component.getProperty('messages.remove.content');
-
         $('.status-dropdown').dropdown({
             onChange: function(value) {               
                 var uuid = $(this).attr('uuid');
@@ -48,8 +59,8 @@ function OauthTokensView() {
             var uuid = $(element).attr('uuid');
         
             modal.confirmDelete({ 
-                title: component.getProperty('messages.remove.title'),
-                description: removeMessage
+                title: self.messages.remove.title,
+                description: self.messages.remove.content
             },function() {
                 oauthControlPanel.delete(uuid,function(result) {
                     arikaim.ui.table.removeRow('#' + uuid);     

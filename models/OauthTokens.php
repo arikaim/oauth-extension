@@ -76,34 +76,43 @@ class OauthTokens extends Model implements UserProviderInterface
      * Get user credentials
      *
      * @param array $credential
-     * @return mixed|false
+     * @return array|null
      */
-    public function getUserByCredentials(array $credentials)
+    public function getUserByCredentials(array $credentials): ?array
     {
         $token = $credentials['token'] ?? null;
         $driver = $credentials['driver'] ?? null;
 
         $model = $this->getToken($token,$driver);
         if (\is_object($model) == false) {
-            return false;
+            return null;
         }
 
         // Check is expired
         if ($model->isExpired() == true) {
-            return false;
+            return null;
         }
 
         // Check is disabled by admin 
         if ($model->status != 1) {
-            return false;
+            return null;
         }
 
         // Check for user relation
         if (empty($model->user_id) == true) {
-            return false;
+            return null;
         }
 
-        return $model->user;
+        $user = $model->user()->first();
+        if (empty($user) == true) {
+            return null;
+        }
+
+        $authId = $user->getAuthId();
+        $user = $user->toArray();
+        $user['auth_id'] = $authId;
+
+        return $user;
     }
 
     /**
@@ -121,15 +130,15 @@ class OauthTokens extends Model implements UserProviderInterface
      * Return user details by auth id
      *
      * @param string|integer $id
-     * @return array|false
+     * @return array|null
      */
-    public function getUserById($id)
+    public function getUserById($id): ?array
     {
         $user = new Users();
         $model = $user->findById($id);
         
         if (\is_object($model) == false) {
-            return false;
+            return null;
         }
 
         return $model->toArray();
@@ -138,7 +147,7 @@ class OauthTokens extends Model implements UserProviderInterface
     /**
      * Get user relation
      *
-     * @return relation|null
+     * @return Relation|null
      */
     public function user()
     {      
@@ -176,7 +185,7 @@ class OauthTokens extends Model implements UserProviderInterface
      * @param string $driver
      * @return boolean
      */
-    public function hasToken($token, $driver)
+    public function hasToken(string $token, string $driver): bool
     {
         $model = $this->where('access_token','=',$token)->where('driver','=',$driver)->first();
 
@@ -190,7 +199,7 @@ class OauthTokens extends Model implements UserProviderInterface
      * @param string $driver
      * @return Model|false
      */
-    public function getToken($token, $driver)
+    public function getToken(string $token, string $driver)
     {
         $model = $this->where('access_token','=',$token)->where('driver','=',$driver)->first();
 
@@ -204,7 +213,7 @@ class OauthTokens extends Model implements UserProviderInterface
      * @param string $driver
      * @return Model|false
      */
-    public function getUserToken($userId, $driver, $type = Self::OAUTH1)
+    public function getUserToken(int $userId, string $driver, int $type = Self::OAUTH1)
     {
         $model = $this->where('user_id','=',$userId)
             ->where('driver','=',$driver)
@@ -221,7 +230,7 @@ class OauthTokens extends Model implements UserProviderInterface
      * @param string $driver
      * @return Model|false
      */
-    public function findByResourceId($resouceId, $driver)
+    public function findByResourceId($resouceId, string $driver)
     {
         $model = $this->where('resource_owner_id','=',$resouceId)->where('driver','=',$driver)->first();
 
@@ -236,15 +245,27 @@ class OauthTokens extends Model implements UserProviderInterface
      * @param integer $userId
      * @return boolean
      */
-    public function saveUserId($accessToken, $driver, $userId)
+    public function saveUserId(string $accessToken, string $driver, int $userId): bool
     {
-        $token = $this->getToken($accessToken, $driver);
+        $token = $this->getToken($accessToken,$driver);
         if (\is_object($token) == false) {           
             return false;
         }
         $token->user_id = $userId;
 
-        return $token->save();
+        return (bool)$token->save();
+    }
+
+    /**
+     * User tokens query
+     *
+     * @param Builder $query
+     * @param integer $userId
+     * @return Builder
+     */
+    public function scopeUserTokensQuery($query, int $userId)
+    {
+        return $query->where('user_id','=',$userId);
     }
 
     /**

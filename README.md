@@ -7,6 +7,7 @@ OAuth manager extension for Arikaim CMS
 #### Requirements 
   * [Arikaim CMS](https://github.com/arikaim/arikaim)
   * [OAuth Module](https://github.com/arikaim/oauth-module)
+  * Arikaim users extension
   
 
 #### Installation

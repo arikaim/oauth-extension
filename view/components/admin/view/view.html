@@ -1,9 +1,16 @@
 {% import systemMacro('orderBy.html') as order %}
 {% set order_by = getOrderBy('oauth') %}
 
-<div class="ui stackable text menu">
-    <div class="item right floated">       
-        {{ component('components:paginator.dropdown',{ namespace: 'oauth' }) }}
+<div class="ui segment">
+    <div class="ui stackable grid">
+        <div class="five wide column">
+    
+        </div>
+        <div class="ten wide column">
+        </div>
+        <div class="one wide column right floated">       
+            {{ component('components:paginator.dropdown',{ namespace: 'oauth' }) }}
+        </div>
     </div>
 </div>
 <div class="ui mt-2">
