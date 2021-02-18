@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     var redirectUrl = $('#redirect').attr('redirect');
     redirectUrl = arikaim.getBaseUrl() + '/' + redirectUrl;
 

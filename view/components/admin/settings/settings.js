@@ -4,7 +4,7 @@
  *  @license    http://www.arikaim.com/license
  *  http://www.arikaim.com
 */
-"use strict";
+'use strict';
 
 function OauthSettings() {
     
@@ -24,6 +24,6 @@ function OauthSettings() {
 
 var oautSettings = new OauthSettings();
 
-arikaim.page.onReady(function() {
+arikaim.component.onLoaded(function() {
     oautSettings.init();
 });

@@ -28,6 +28,6 @@ function OauthControlPanel() {
 
 var oauthControlPanel = new OauthControlPanel();
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     oauthControlPanel.init();
 });

@@ -72,7 +72,7 @@ function OauthTokensView() {
 
 var oauthTokensView = new OauthTokensView();
 
-$(document).ready(function() {  
+arikaim.component.onLoaded(function() {
     oauthTokensView.init();
     oauthTokensView.initRows();  
 }); 

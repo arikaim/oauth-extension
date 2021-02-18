@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+arikaim.component.onLoaded(function() {
     arikaim.ui.button('.oauth-authorize-button',function(element) {
         var provider = $(element).attr('provider');
         var action = $(element).attr('action');
