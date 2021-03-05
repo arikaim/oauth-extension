@@ -5,6 +5,8 @@ arikaim.component.onLoaded(function() {
     redirectUrl = arikaim.getBaseUrl() + '/' + redirectUrl;
 
     window.onunload = function() {
+        console.log(redirectUrl);
+        
         if (isEmpty(redirectUrl) == false) {               
             window.opener.document.location.href = redirectUrl;
         }
