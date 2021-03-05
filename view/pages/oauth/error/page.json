@@ -1,0 +1,15 @@
+{
+    "include": {  
+        "components": [ 
+        ],           
+        "css": [ 
+        ],        
+        "library": [
+            "jquery",               
+            "arikaim",      
+            "arikaim-ui",          
+            "fomantic",
+            "tailwind"
+        ]        
+    }
+}

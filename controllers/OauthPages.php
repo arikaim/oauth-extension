@@ -97,9 +97,8 @@ class OauthPages extends Controller
             'type'           => $driver->getType()
         ];
         $this->get('event')->dispatch('oauth.auth',$eventData);
-        $data['redirect_url'] = $this->get('options')->get('users.login.redirect');
+        $data['redirect_url'] = \trim($this->get('options')->get('users.login.redirect'));
         
-
         return $this->pageLoad($request,$response,$data,'oauth>oauth.success',$language); 
     }
 
