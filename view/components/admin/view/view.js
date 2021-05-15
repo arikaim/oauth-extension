@@ -8,21 +8,9 @@
 
 function OauthTokensView() {
     var self = this;
-    this.messages = null;
-
-    this.loadMessages = function() {
-        if (isObject(this.messages) == true) {
-            return;
-        }
-
-        arikaim.component.loadProperties('oauth::admin',function(params) { 
-            self.messages = params.messages;
-        }); 
-    };
-
-
+    
     this.init = function() {
-        this.loadMessages();
+        this.loadMessages('oauth::admin');
 
         order.init('oauth_rows','oauth::admin.view.rows','oauth');        
         paginator.init('oauth_rows');   
@@ -59,8 +47,8 @@ function OauthTokensView() {
             var uuid = $(element).attr('uuid');
         
             modal.confirmDelete({ 
-                title: self.messages.remove.title,
-                description: self.messages.remove.content
+                title: self.getMessage('remove.title'),
+                description: self.getMessage('remove.content')
             },function() {
                 oauthControlPanel.delete(uuid,function(result) {
                     arikaim.ui.table.removeRow('#' + uuid);     
@@ -70,7 +58,7 @@ function OauthTokensView() {
     };
 };
 
-var oauthTokensView = new OauthTokensView();
+var oauthTokensView = createObject(OauthTokensView,ControlPanelView);
 
 arikaim.component.onLoaded(function() {
     oauthTokensView.init();
