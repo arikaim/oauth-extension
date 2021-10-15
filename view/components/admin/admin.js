@@ -9,7 +9,7 @@
 function OauthControlPanel() {
   
     this.delete = function(uuid, onSuccess, onError) {
-        return arikaim.delete('/api/oauth/admin/delete/' + uuid,onSuccess,onError);          
+        return arikaim.delete('/api/admin/oauth/delete/' + uuid,onSuccess,onError);          
     };
 
     this.setStatus = function(uuid, status, onSuccess, onError) { 
@@ -18,16 +18,12 @@ function OauthControlPanel() {
             uuid: uuid 
         };
         
-        return arikaim.put('/api/oauth/admin/status',data,onSuccess,onError);           
-    };
-
-    this.init = function() {    
-        arikaim.ui.tab();
-    };
+        return arikaim.put('/api/admin/oauth/status',data,onSuccess,onError);           
+    };    
 }
 
 var oauthControlPanel = new OauthControlPanel();
 
 arikaim.component.onLoaded(function() {
-    oauthControlPanel.init();
+    arikaim.ui.tab();
 });

@@ -6,28 +6,30 @@
  */
 'use strict';
 
-function Oauth() {
-    var self = this;
+function Oauth() {   
     var authWindow;
     var onSuccessCallback;
     var redirectUrl;
 
-    this.getAuthUrl = function(provider, action) {
+    this.getAuthUrl = function(provider, action, configName) {
         var url = arikaim.getBaseUrl() + '/oauth/authentication/' + provider;
+        var actionPath = (isEmpty(action) == false) ? '/' + action : '';
+        var configPath = (isEmpty(configName) == false) ? '/' + configName : '';
 
-        return (isEmpty(action) == false) ? url + '/' + action : url;
+        return  url + actionPath + configPath;
     };
 
-    this.openAuthWindow = function(provider, action, redirect, settings) {      
+    this.openAuthWindow = function(provider, action, redirect, settings, configName) {      
         var left = (screen.width / 2) - (800/2);
         var top = (screen.height / 2) - (600/2);
-        var settings = 'location=no,toolbar=no,resizable=no,width=800,height=600,scrollbars=no,status=no,left=' + left + ',top=' + top;
-        redirectUrl = redirect;
-
-        if (isObject(authWindow) == true) {
-            authWindow.close();
+        if (isEmpty(settings) == true) {
+            settings = 'location=no,toolbar=no,resizable=no,width=800,height=600,scrollbars=no,status=no,left=' + left + ',top=' + top;
         }
-        authWindow = window.open(this.getAuthUrl(provider,action),'auth',settings);
+     
+        redirectUrl = redirect;
+        this.closeAuthWindow();
+       
+        authWindow = window.open(this.getAuthUrl(provider,action,configName),'auth',settings);
     };
 
     this.redirect = function() {  

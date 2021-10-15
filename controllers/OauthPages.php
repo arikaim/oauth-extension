@@ -12,6 +12,7 @@ namespace Arikaim\Extensions\Oauth\Controllers;
 use Arikaim\Core\Controllers\Controller;
 use Arikaim\Core\Db\Model;
 use Arikaim\Modules\Oauth\Oauth;
+use Arikaim\Core\Http\Session;
 
 /**
  * Oauth pages controler
@@ -31,9 +32,15 @@ class OauthPages extends Controller
         $language = $this->getPageLanguage($data);
         $oauthModule = new Oauth();
         $provider = $data->get('provider'); 
-        $action = $data->get('action',$oauthModule->getAction()); 
+        $action = $oauthModule->getAction(); 
+        // custom driver config
+        $driverConfig = $data->get('config',null);
+        if (empty($driverConfig) == false) {
+            $config = $this->get('driver')->getDriver($driverConfig);
+            $config = $config['config'] ?? null;
+        }
 
-        $driver = $this->get('driver')->create($provider);
+        $driver = $this->get('driver')->create($provider,['action' => $action],$config ?? null);
         if (\is_object($driver) == false) {
             return $this->pageLoad($request,$response,$data,'oauth>oauth.error',$language); 
         }
@@ -84,21 +91,27 @@ class OauthPages extends Controller
             $expireDate = $token->getExpires();
             $resourceInfo = $driver->getResourceInfo($token);
         }
-      
-        $tokens->saveToken($accessToken,$tokenSecret,$provider,$resourceOwnerId,$expireDate,$driver->getType(),$refreshToken);
-    
-        // dispatch event
-        $eventData = [
-            'respurce_owner' => $userData,
-            'access_token'   => $accessToken,
-            'driver'         => $provider,
-            'action'         => $action,
-            'user'           => $resourceInfo->toArray(),           
-            'type'           => $driver->getType()
-        ];
-        $this->get('event')->dispatch('oauth.auth',$eventData);
-        $data['redirect_url'] = \trim($this->get('options')->get('users.login.redirect'));
         
+        Session::set('vars.access-token',$accessToken);
+
+        if ($action != 'get-token') {       
+            $tokens->saveToken($accessToken,$tokenSecret,$provider,$resourceOwnerId,$expireDate,$driver->getType(),$refreshToken);
+            // dispatch event     
+            $this->get('event')->dispatch('oauth.auth',[
+                'respurce_owner' => $userData,
+                'access_token'   => $accessToken,
+                'driver'         => $provider,
+                'action'         => $action,
+                'user'           => $resourceInfo->toArray(),           
+                'type'           => $driver->getType()
+            ]);
+            
+            $data['redirect_url'] = \trim($this->get('options')->get('users.login.redirect'));
+        }
+              
+        $data['action'] = $action;
+        $data['access_token'] = $accessToken;
+
         return $this->pageLoad($request,$response,$data,'oauth>oauth.success',$language); 
     }
 
@@ -113,9 +126,16 @@ class OauthPages extends Controller
     public function authentication($request, $response, $data) 
     { 
         $provider = $data->get('provider');
+        $driverConfig = $data->get('config',null);
         $action = $data->get('action',null);
       
-        $driver = $this->get('driver')->create($provider,['action' => $action]);
+        if (empty($driverConfig) == false) {
+            $config = $this->get('driver')->getDriver($driverConfig);
+            $config = $config['config'] ?? null;
+        }
+        
+        $driver = $this->get('driver')->create($provider,['action' => $action],$config ?? null);
+
         if (\is_object($driver) == false) {
             return $this->pageLoad($request,$response,$data,'oauth>oauth.error'); 
         }

@@ -1,4 +1,8 @@
-<button class="ui oauth-authorize-button button {{ class }}" provider="{{ provider }}" {{ action|attr('action') }} {{ redirect|attr('redirect') }} >
+<button 
+    class="ui oauth-authorize-button button {{ class }}" 
+    provider="{{ provider }}" 
+    {{ action|attr('action') }} 
+    {{ redirect|attr('redirect') }}>
     {% if icon is not empty %}
     <i class="icon {{ icon }}"></i>
     {% endif %}
