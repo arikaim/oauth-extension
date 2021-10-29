@@ -6,7 +6,7 @@
     "type": "system",
     "description": "Manage OAuth 1 and OAuth 2 access tokens and authorization.",
     "short-description": "Oauth Authorization Manager.",
-    "version": "1.1.11",
+    "version": "1.1.12",
     "position": "4",
     "repository": "https://github.com/arikaim/oauth-extension.git",
     "require": {
