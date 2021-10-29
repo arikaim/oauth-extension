@@ -1,9 +1,5 @@
 {
-    "include": {  
-        "components": [ 
-        ],           
-        "css": [ 
-        ],        
+    "include": {             
         "library": [
             "jquery",               
             "arikaim",      

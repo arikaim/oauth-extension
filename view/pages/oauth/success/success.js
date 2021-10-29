@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function() {
+window.addEventListener('load', function() {
     var redirectUrl = $('#redirect').attr('redirect');
     redirectUrl = (isEmpty(redirectUrl) == false) ? arikaim.getBaseUrl() + '/' + redirectUrl : null;
   
