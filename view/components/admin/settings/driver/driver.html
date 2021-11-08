@@ -1,0 +1,13 @@
+{% component 'semantic~tabs.vertical.content' %}
+<div class="mt-4">
+    <div class="ui segment">
+    {{  component('system:admin.drivers.dropdown',{ 
+            category: 'oauth',
+            class: 'fluid' 
+        }) 
+    }}                       
+    </div>
+    <div class="ui segment mt-2" id="driver_settings">
+    </div>
+</div>
+{% endcomponent %}

@@ -8,12 +8,7 @@
 
 function OauthSettings() {
     
-    this.init = function() {
-        arikaim.events.on('driver.config',function(element,name,category) {
-            arikaim.ui.setActiveTab('#settings_button');
-            return drivers.loadConfig(name,'tab_content');           
-        },'driverConfig');       
-        
+    this.init = function() {  
         arikaim.ui.button('.auth-button',function(element) {
             var driverName = $(element).attr('driver-name');         
           

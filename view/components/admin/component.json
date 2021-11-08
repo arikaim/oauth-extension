@@ -1,7 +1,7 @@
 {
     "include": {
         "js": [
-            "components:search",
+            "semantic~search",
             "oauth::oauth",
             "system:order",
             "system:admin.drivers"

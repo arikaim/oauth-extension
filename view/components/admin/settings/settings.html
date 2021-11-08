@@ -1,6 +1,22 @@
-{% set drivers = service('driver').getList('oauth') %}
-{% set current = getOption('oauth.current') %}
-{% set buttons = [
-    { icon: "unlock", class: "auth-button", title: labels.auth }
+{% set params = { current: current, category: 'subscriptions' } %}
+{% set items = [ 
+    { 
+        id: 'driver_tab',
+        title: labels.dirver,
+        component: 'oauth::admin.settings.driver',
+        icon: 'cogs',
+        active: true,
+        params: params 
+    }
 ] %}
-{{ component('system:admin.drivers.list',{ category: 'oauth', current : current, buttons: buttons }) }}
+{{  component('semantic~tabs.vertical',{ 
+    items: items, 
+    menu: { id: 'settings_menu' }, 
+    item_class: 'settings-tab-item',
+        content: { 
+            id: 'settings_content',
+            component: 'oauth::admin.settings.driver',
+            params: params 
+        } 
+    })
+}}
