@@ -7,7 +7,7 @@
         "type": "Type",
         "resource": "Resource Id",
         "provider": "Provider", 
-        "created": "Date Created",
-        "expired": "Date Expired"        
+        "created": "Created",
+        "expired": "Expired"        
     }
 }

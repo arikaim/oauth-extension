@@ -3,13 +3,10 @@
 
 <div class="ui segment">
     <div class="ui stackable grid">
-        <div class="five wide column">
-    
-        </div>
         <div class="ten wide column">
         </div>
-        <div class="one wide column right floated">       
-            {{ component('semantic~paginator.dropdown',{ namespace: 'oauth' }) }}
+        <div class="six wide column right aligned">       
+            {{ component('semantic~paginator.dropdown',{ class: 'mini', namespace: 'oauth' }) }}
         </div>
     </div>
 </div>
@@ -17,23 +14,23 @@
     <table class="ui compact stackable selectable borderless basic table">
         <thead class="table-head">
             <tr>              
-                <th class="one wide collapsing left aligned">{{ columns.action }}</th>
-                <th class="collapsing two wide">                   
+                <th class="two wide">{{ columns.action }}</th>
+                <th class="two wide">                   
                     {{ order.orderByLink('oauth','status') }}
                     {{ columns.status }}                   
                 </th>                                     
-                <th class="one wide">
+                <th class="two wide">
                     {{ order.orderByLink('oauth','date_created') }}            
                     {{ columns.created }}
                 </th>
-                <th class="one wide">
+                <th class="two wide">
                     {{ order.orderByLink('oauth','date_expired') }}            
                     {{ columns.expired }}
                 </th>
-                <th class="collapsing">{{ columns.token }}</th>   
-                <th class="collapsing two wide">{{ columns.user }}</th>   
-                <th class="collapsing">{{ columns.resource }}</th>             
-                <th class="one wide">{{ columns.provider }}</th>      
+                <th class="four wide">{{ columns.token }}</th>   
+                <th class="three wide">{{ columns.user }}</th>   
+                <th class="two wide">{{ columns.resource }}</th>             
+                <th class="two wide">{{ columns.provider }}</th>      
                 <th class="one wide">{{ columns.type }}</th>              
             </tr>
         </thead>

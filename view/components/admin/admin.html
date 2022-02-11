@@ -1,11 +1,8 @@
-{%  set items = [ 
-        { id: 'oauth_list_tab', title: labels.view, icon: 'list', component: 'oauth::admin.view', active: true },                 
-        { id: 'oauth_settings_tab', title: labels.settings, component: 'oauth::admin.settings', icon: 'cogs' }    
-    ] 
-%}
-
 {{  component('semantic~tabs',{ 
-        items: items,
+        items: [ 
+            { id: 'oauth_list_tab', title: labels.view, icon: 'list', component: 'oauth::admin.view', active: true },                 
+            { id: 'oauth_settings_tab', title: labels.settings, component: 'oauth::admin.settings', icon: 'cogs' }    
+        ],
         menu: { component: 'system:admin.extensions.menu.actions', extension: 'oauth' },
         content: { component: 'oauth::admin.view' } 
     })
