@@ -3,7 +3,11 @@
 {% set model = applySearch(model,'oauth') %}
 {% set model = applyOrderBy(model,'oauth') %}
 {% set items = paginate(model,'oauth') %}
-
+{% if items.getItems()|length == 0 %}
+<tr>
+    <td colspan="10">...</td>
+</tr>
+{% endif %}
 {% for item in items.getItems() %}  
     <tr id="{{ item.uuid }}">             
         <td>  

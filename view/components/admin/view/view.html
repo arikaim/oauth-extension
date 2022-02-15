@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-<div class="ui mt-2">
+<div class="ui segment mt-2">
     <table class="ui compact stackable selectable borderless basic table">
         <thead class="table-head">
             <tr>              
@@ -27,7 +27,7 @@
                     {{ order.orderByLink('oauth','date_expired') }}            
                     {{ columns.expired }}
                 </th>
-                <th class="four wide">{{ columns.token }}</th>   
+                <th>{{ columns.token|sliceText(20) }}</th>   
                 <th class="three wide">{{ columns.user }}</th>   
                 <th class="two wide">{{ columns.resource }}</th>             
                 <th class="two wide">{{ columns.provider }}</th>      
