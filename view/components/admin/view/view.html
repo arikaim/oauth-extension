@@ -15,19 +15,19 @@
         <thead class="table-head">
             <tr>              
                 <th class="two wide">{{ columns.action }}</th>
-                <th class="two wide">                   
+                <th class="three wide">                   
                     {{ order.orderByLink('oauth','status') }}
                     {{ columns.status }}                   
                 </th>                                     
-                <th class="two wide">
+                <th class="three wide">
                     {{ order.orderByLink('oauth','date_created') }}            
                     {{ columns.created }}
                 </th>
-                <th class="two wide">
+                <th class="three wide">
                     {{ order.orderByLink('oauth','date_expired') }}            
                     {{ columns.expired }}
                 </th>
-                <th>{{ columns.token|sliceText(20) }}</th>   
+                <th>{{ columns.token }}</th>   
                 <th class="three wide">{{ columns.user }}</th>   
                 <th class="two wide">{{ columns.resource }}</th>             
                 <th class="two wide">{{ columns.provider }}</th>      
