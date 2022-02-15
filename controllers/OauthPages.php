@@ -32,7 +32,10 @@ class OauthPages extends Controller
         $language = $this->getPageLanguage($data);
         $oauthModule = new Oauth();
         $provider = $data->get('provider'); 
+        $provider = ($provider == 'google') ? 'google.oauth' : $provider;
+
         $action = $oauthModule->getAction(); 
+
         // custom driver config
         $driverConfig = $data->get('config',null);
         if (empty($driverConfig) == false) {
