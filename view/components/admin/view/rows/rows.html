@@ -30,7 +30,7 @@
         <td>{{ item.date_created|dateFormat }}</td>
         <td>{{ item.date_expired|dateFormat }}</td>          
         <td id="token_{{ item.uuid }}">              
-            {{ item.access_token||sliceText(10) }}              
+            {{ item.access_token|sliceText(10) }}              
         </td>    
         <td>
             {{ (item.user.user_name is empty) ? item.user.email : item.user.user_name }}
