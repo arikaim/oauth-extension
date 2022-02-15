@@ -15,9 +15,11 @@
                 <button class="ui icon mini basic button delete-button" uuid="{{ item.uuid }}" data-title="{{ item.title }}">
                     <i class="icon trash orange"></i>
                 </button>  
+                <!-- 
                 <button class="ui mini icon basic button view-token" token="{{ item.access_token }}" uuid="{{ item.uuid }}">
                     <i class="icon eye outline"></i>
                 </button>
+                -->
             </div>          
         </td>  
         <td>                                   
@@ -30,7 +32,7 @@
         <td>{{ item.date_created|dateFormat }}</td>
         <td>{{ item.date_expired|dateFormat }}</td>          
         <td id="token_{{ item.uuid }}">              
-            {{ item.access_token|sliceText(10) }}              
+            {{ item.access_token|sliceText(10) }}...              
         </td>    
         <td>
             {{ (item.user.user_name is empty) ? item.user.email : item.user.user_name }}
