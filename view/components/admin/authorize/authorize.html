@@ -1,0 +1,19 @@
+{% set oauth_drivers = service('driver').getList('oauth',1) %}
+{% component 'semantic~tabs.vertical.content' %}
+<div class="mt-4">
+   {% for driver in oauth_drivers %}
+   <div class="p-2">
+       <div class="font-bold">
+            {{ driver.title }}
+       </div>
+       {{   component('oauth::oauth.button',{ 
+                provider: driver.name, 
+                action: 'get-token',
+                class: 'primary mini button',
+                title: ' Authorize' 
+            }) 
+        }}
+   </div>
+   {% endfor %}
+</div>
+{% endcomponent %}

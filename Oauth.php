@@ -32,7 +32,7 @@ class Oauth extends Extension
         // Db tables
         $this->createDbTable('OauthTokensSchema');  
         // Events
-        $this->registerEvent('oauth.auth','OAuth authorize');
+        $this->registerEvent('oauth.auth','OAuth authorize success');
     }
     
     /**

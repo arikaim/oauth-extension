@@ -59,7 +59,6 @@ class OauthPages extends Controller
             }
 
             $temporaryCredentials = $oauthModule->getTemporaryCredentials();
-
             $tokenCredentials = $driver->getInstance()->getTokenCredentials($temporaryCredentials,$oauthToken,$oauthVerifier);
             $oauthModule->clearTemporaryCredentials();
             $accessToken = $tokenCredentials->getIdentifier();
@@ -78,13 +77,14 @@ class OauthPages extends Controller
                 $oauthModule->clearState();
 
                 return $this->pageLoad($request,$response,$data,'oauth>oauth.error',$language);                
-            } 
-        
+            }       
             // get token
             $code = $this->getQueryParam($request,'code');  
+  
             $token = $driver->getInstance()->getAccessToken('authorization_code',[
                 'code' => $code
             ]);
+
             $user = $driver->getInstance()->getResourceOwner($token);
             $resourceOwnerId = $user->getId();
             $userData = $user->toArray();
@@ -97,18 +97,27 @@ class OauthPages extends Controller
         
         Session::set('vars.access-token',$accessToken);
 
+        // save access token to db
+        $tokens->saveToken(
+            $accessToken,
+            $tokenSecret,
+            $provider,
+            $resourceOwnerId,
+            $expireDate,
+            $driver->getType(),
+            $refreshToken
+        );
+        // dispatch event     
+        $this->get('event')->dispatch('oauth.auth',[
+            'respurce_owner' => $userData,
+            'access_token'   => $accessToken,
+            'driver'         => $provider,
+            'action'         => $action,
+            'user'           => $resourceInfo->toArray(),           
+            'type'           => $driver->getType()
+        ]);
+
         if ($action != 'get-token') {       
-            $tokens->saveToken($accessToken,$tokenSecret,$provider,$resourceOwnerId,$expireDate,$driver->getType(),$refreshToken);
-            // dispatch event     
-            $this->get('event')->dispatch('oauth.auth',[
-                'respurce_owner' => $userData,
-                'access_token'   => $accessToken,
-                'driver'         => $provider,
-                'action'         => $action,
-                'user'           => $resourceInfo->toArray(),           
-                'type'           => $driver->getType()
-            ]);
-            
             $data['redirect_url'] = \trim($this->get('options')->get('users.login.redirect'));
         }
               
@@ -155,7 +164,8 @@ class OauthPages extends Controller
 
         // OAuth2
         if ($driver->getType() == 2) {
-            $authUrl = $driver->getInstance()->getAuthorizationUrl();
+            $options = $driver->getOptions();          
+            $authUrl = $driver->getInstance()->getAuthorizationUrl($options);
             $oauthModule->saveState($driver->getInstance()->getState());
         }
        

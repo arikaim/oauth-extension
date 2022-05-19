@@ -1,6 +1,7 @@
 {
     "labels": {
-        "view": "Access Tokens",       
+        "view": "Access Tokens",   
+        "auth": "Authorize",     
         "settings": "Setting"
     },
     "messages": {
