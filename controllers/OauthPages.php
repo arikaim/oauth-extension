@@ -44,7 +44,7 @@ class OauthPages extends Controller
         }
 
         $driver = $this->get('driver')->create($provider,['action' => $action],$config ?? null);
-        if (\is_object($driver) == false) {
+        if ($driver == null) {
             return $this->pageLoad($request,$response,$data,'oauth>oauth.error',$language); 
         }
         $oauthModule->clearAction();
@@ -80,7 +80,7 @@ class OauthPages extends Controller
             }       
             // get token
             $code = $this->getQueryParam($request,'code');  
-  
+            
             $token = $driver->getInstance()->getAccessToken('authorization_code',[
                 'code' => $code
             ]);
@@ -105,8 +105,11 @@ class OauthPages extends Controller
             $resourceOwnerId,
             $expireDate,
             $driver->getType(),
-            $refreshToken
+            $refreshToken,
+            $this->getUserId(),
+            Session::get('oauth.scope',null)
         );
+        
         // dispatch event     
         $this->get('event')->dispatch('oauth.auth',[
             'respurce_owner' => $userData,
@@ -124,7 +127,7 @@ class OauthPages extends Controller
         $data['action'] = $action;
         $data['access_token'] = $accessToken;
 
-        return $this->pageLoad($request,$response,$data,'oauth>oauth.success',$language); 
+        return $this->pageLoad($request,$response,$data,'current>oauth.success',$language); 
     }
 
     /**
@@ -148,8 +151,8 @@ class OauthPages extends Controller
         
         $driver = $this->get('driver')->create($provider,['action' => $action],$config ?? null);
 
-        if (\is_object($driver) == false) {
-            return $this->pageLoad($request,$response,$data,'oauth>oauth.error'); 
+        if ($driver == null) {
+            return $this->pageLoad($request,$response,$data,'current>oauth.error'); 
         }
         $oauthModule = new Oauth();
         $oauthModule->saveAction($action);

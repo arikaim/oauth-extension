@@ -1,0 +1,16 @@
+{
+    "title": "Alert Details",
+    "icon": "info",
+    "labels": {        
+        "id": "Id",         
+        "token": "Access Token",
+        "refresh": "Refresh Token",
+        "resource": "Resource Id",           
+        "type": "Type",        
+        "user": "User",
+        "scope": "Scopes",
+        "status": "Status",
+        "expired": "Expired",   
+        "date": "Created"      
+    }
+}

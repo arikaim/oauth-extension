@@ -5,6 +5,8 @@
             "active": "active",
             "disabled": "disabled"
         },
+        "details": "Details",
+        "delete": "Delete token",
         "expired": "Expired",
         "oauth": "OAuth"            
     }

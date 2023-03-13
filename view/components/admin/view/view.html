@@ -1,44 +1,59 @@
 {% import systemMacro('orderBy.html') as order %}
 {% set order_by = getOrderBy('oauth') %}
+<div class="ui two column grid">
+    <div class="column">
+        <div class="ui segment">
+            <div class="ui stackable grid">
+                <div class="ten wide column">
+                    <div class="flex flex-row items-center">
+                        <div class="px-2 font-bold">
+                            {{ labels.provider }}
+                        </div>
+                        {{  component('system:admin.drivers.dropdown',{ 
+                                category: 'oauth',
+                                class: 'mini' 
+                            }) 
+                        }}      
+                        <div id="auth_content" class="px-2">
+                        </div>
+                    </div>             
+                </div>
+                <div class="six wide column right aligned">       
+                    {{ component('semantic~paginator.dropdown',{ class: 'mini', namespace: 'oauth' }) }}
+                </div>
+            </div>
+        </div>
+        <div class="ui segment mt-2">
+            <table class="ui compact stackable selectable borderless basic table">
+                <thead class="table-head">
+                    <tr>              
+                        <th class="one wide">{{ columns.action }}</th>
+                        <th class="three wide">                   
+                            {{ order.orderByLink('oauth','status') }}
+                            {{ columns.status }}                   
+                        </th>                                     
+                        <th class="three wide">
+                            {{ order.orderByLink('oauth','date_created') }}            
+                            {{ columns.created }}
+                        </th>
+                        <th class="three wide">
+                            {{ order.orderByLink('oauth','date_expired') }}            
+                            {{ columns.expired }}
+                        </th>    
+                        <th>{{ columns.provider }}</th>                                          
+                        <th class="two wide">{{ columns.user }}</th>                                                          
+                    </tr>
+                </thead>
+                <tbody id="oauth_rows" component="oauth::admin.view.rows" namespace="oauth">
+                    {{ component('oauth::admin.view.rows') }} 
+                </tbody>
+            </table> 
+            <div id="paginator">      
+                {{ component("semantic~paginator",{ namespace: 'oauth' }) }}
+            </div>
+        </div>
+    </div>
+    <div class="column" id="content_details">
+    </div>
+</div>
 
-<div class="ui segment">
-    <div class="ui stackable grid">
-        <div class="ten wide column">
-        </div>
-        <div class="six wide column right aligned">       
-            {{ component('semantic~paginator.dropdown',{ class: 'mini', namespace: 'oauth' }) }}
-        </div>
-    </div>
-</div>
-<div class="ui segment mt-2">
-    <table class="ui compact stackable selectable borderless basic table">
-        <thead class="table-head">
-            <tr>              
-                <th class="two wide">{{ columns.action }}</th>
-                <th class="three wide">                   
-                    {{ order.orderByLink('oauth','status') }}
-                    {{ columns.status }}                   
-                </th>                                     
-                <th class="three wide">
-                    {{ order.orderByLink('oauth','date_created') }}            
-                    {{ columns.created }}
-                </th>
-                <th class="three wide">
-                    {{ order.orderByLink('oauth','date_expired') }}            
-                    {{ columns.expired }}
-                </th>
-                <th>{{ columns.token }}</th>   
-                <th class="three wide">{{ columns.user }}</th>   
-                <th class="two wide">{{ columns.resource }}</th>             
-                <th class="two wide">{{ columns.provider }}</th>      
-                <th class="one wide">{{ columns.type }}</th>              
-            </tr>
-        </thead>
-        <tbody id="oauth_rows" component="oauth::admin.view.rows" namespace="oauth">
-            {{ component('oauth::admin.view.rows') }} 
-        </tbody>
-    </table> 
-    <div id="paginator">      
-        {{ component("semantic~paginator",{ namespace: 'oauth' }) }}
-    </div>
-</div>

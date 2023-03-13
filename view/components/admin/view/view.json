@@ -1,8 +1,10 @@
 {
+    "labels": {
+        "provider": "Provider"
+    },
     "columns": {        
         "action": "Action",       
         "status": "Status",
-        "token": "Token",
         "user": "User",
         "type": "Type",
         "resource": "Resource Id",

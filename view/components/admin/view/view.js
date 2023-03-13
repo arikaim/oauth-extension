@@ -1,6 +1,6 @@
 /**
  *  Arikaim
- *  @copyright  Copyright (c) Konstantin Atanasov <info@arikaim.com>
+ *  @copyright  Copyright (c)  <info@arikaim.com>
  *  @license    http://www.arikaim.com/license
  *  http://www.arikaim.com
  */
@@ -25,9 +25,27 @@ function OauthTokensView() {
             paginator.reload();
             self.initRows();    
         },'oauthSearch');
+
+        $('#drivers_dropdown').dropdown({
+            onChange: function(value) {                    
+                arikaim.ui.loadComponent({
+                    mountTo: 'auth_content',
+                    component: 'oauth::oauth.button',
+                    params: {
+                        action: 'get-token',
+                        provider: value,
+                        class: 'primary mini button',
+                        title: 'Authorize'
+                    }
+                });
+            }
+        });
     };
 
     this.initRows = function() {
+
+        arikaim.ui.loadComponentButton('.token-details');
+
         $('.status-dropdown').dropdown({
             onChange: function(value) {               
                 var uuid = $(this).attr('uuid');

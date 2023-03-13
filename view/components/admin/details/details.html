@@ -1,0 +1,89 @@
+{% if uuid is not empty %}
+    {% set token = createModel('OauthTokens','oauth').findById(uuid) %}  
+{% endif %}
+
+{% component 'semantic~panel' %}
+<div>
+    <table class="ui very basic definition table">
+        <thead>
+            <tr>
+                <th class="three wide"></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="right aligned">{{ labels.id }}</td>
+                <td>
+                    <div class="ui basic label">
+                        {{ token.id }}
+                    </div>
+                    {{ token.uuid }}
+                </td>
+            </tr>
+            <tr>
+                <td class="right aligned">{{ labels.token }}</td>
+                <td>
+                    {{ token.access_token|sliceText(10) }}...      
+                </td>
+            </tr>
+            <tr>
+                <td class="right aligned">
+                    {{ labels.status }}
+                </td>
+                <td>
+                    <div class="ui basic label">
+                        {{ component('semantic~status.label',{ status: token.status }) }}
+                    </div>
+                </td>
+            </tr>   
+            <tr>
+                <td class="right aligned">{{ labels.refresh }}</td>
+                <td>
+                    {{ token.refresh_token|sliceText(10) }}
+                </td>
+            </tr>   
+            <tr>
+                <td class="right aligned">{{ labels.type }}</td>
+                <td>
+                    {{ token.type }}
+                </td>
+            </tr>          
+            <tr>
+                <td class="right aligned">{{ labels.resource }}</td>
+                <td>
+                    {{ token.resource_owner_id }}
+                </td>
+            </tr>         
+            <tr>
+                <td class="right aligned">{{ labels.date }}</td>
+                <td>
+                    <i class="icon outline calendar blue"></i>
+                    {{ token.date_created|dateFormat }}
+                </td>
+            </tr>   
+            <tr>
+                <td class="right aligned">{{ labels.expired }}</td>
+                <td>
+                    {% if token.date_expired is not empty  %}
+                        <i class="icon outline calendar blue"></i>
+                        {{ token.date_expired|dateFormat }}
+                    {% endif %}
+                </td>
+            </tr>   
+            <tr>
+                <td class="right aligned">{{ labels.user }}</td>
+                <td>
+                    {{ token.user.user_name_or_email }}
+                </td>
+            </tr>         
+            <tr>
+                <td class="right aligned">{{ labels.scope }}</td>
+                <td>
+                    {{ token.scopes }}
+                </td>
+            </tr>  
+        </tbody>  
+    </table>     
+</div>
+{% endcomponent %}

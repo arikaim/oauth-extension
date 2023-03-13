@@ -5,21 +5,28 @@
 {% set items = paginate(model,'oauth') %}
 {% if items.getItems()|length == 0 %}
 <tr>
-    <td colspan="10">...</td>
+    <td colspan="6">...</td>
 </tr>
 {% endif %}
 {% for item in items.getItems() %}  
     <tr id="{{ item.uuid }}">             
         <td>  
             <div class="ui buttons">                                                   
-                <button class="ui icon mini basic button delete-button" uuid="{{ item.uuid }}" data-title="{{ item.title }}">
+                <button 
+                    title="{{ labels.delete }}"
+                    class="ui icon mini compact basic button delete-button" 
+                    uuid="{{ item.uuid }}" 
+                    data-title="{{ item.title }}">
                     <i class="icon trash orange"></i>
-                </button>  
-                <!-- 
-                <button class="ui mini icon basic button view-token" token="{{ item.access_token }}" uuid="{{ item.uuid }}">
-                    <i class="icon eye outline"></i>
-                </button>
-                -->
+                </button>                  
+                <button 
+                    title="{{ labels.details }}"
+                    mountTo="content_details"
+                    component="oauth::admin.details"
+                    class="ui mini compact icon basic button token-details" 
+                    params="uuid:{{ item.uuid }}">
+                    <i class="icon info"></i>
+                </button>              
             </div>          
         </td>  
         <td>                                   
@@ -30,19 +37,12 @@
             {% endif %}           
         </td>
         <td>{{ item.date_created|dateFormat }}</td>
-        <td>{{ item.date_expired|dateFormat }}</td>          
-        <td id="token_{{ item.uuid }}">              
-            {{ item.access_token|sliceText(10) }}...              
-        </td>    
+        <td>{{ item.date_expired|dateFormat }}</td> 
         <td>
+            {{ item.driver }}
+        </td>                 
+        <td title="{{ item.resource_owner_id }}">
             {{ (item.user.user_name is empty) ? item.user.email : item.user.user_name }}
-        </td>                      
-        <td>{{ item.resource_owner_id }}</td>
-        <td>{{ item.driver }}</td>  
-        <td>
-            <div class="ui horizontal basic blue label">
-                {{ labels.oauth }}{{ item.type }}
-            </div>
-        </td>         
+        </td>                                 
     </tr>
 {% endfor %}

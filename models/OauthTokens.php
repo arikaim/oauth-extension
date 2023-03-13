@@ -31,7 +31,7 @@ class OauthTokens extends Model implements UserProviderInterface
     use Uuid,    
         Status, 
         Auth,   
-        DateCreated,    
+        DateCreated,   
         Find;
     
     /**
@@ -59,7 +59,8 @@ class OauthTokens extends Model implements UserProviderInterface
         'type',
         'resource_owner_id',
         'refresh_token',
-        'user_id',       
+        'user_id',     
+        'scopes',  
         'driver',
         'date_created',
         'date_expired'
@@ -84,7 +85,7 @@ class OauthTokens extends Model implements UserProviderInterface
         $driver = $credentials['driver'] ?? null;
 
         $model = $this->getToken($token,$driver);
-        if (\is_object($model) == false) {
+        if ($model === false) {
             return null;
         }
 
@@ -137,11 +138,7 @@ class OauthTokens extends Model implements UserProviderInterface
         $user = new Users();
         $model = $user->findById($id);
         
-        if (\is_object($model) == false) {
-            return null;
-        }
-
-        return $model->toArray();
+        return ($model == null) ? null : $model->toArray();
     }
 
     /**
@@ -189,7 +186,7 @@ class OauthTokens extends Model implements UserProviderInterface
     {
         $model = $this->where('access_token','=',$token)->where('driver','=',$driver)->first();
 
-        return \is_object($model);
+        return ($model != null);
     }
 
     /**
@@ -203,7 +200,7 @@ class OauthTokens extends Model implements UserProviderInterface
     {
         $model = $this->where('access_token','=',$token)->where('driver','=',$driver)->first();
 
-        return (\is_object($model) == true) ? $model : false;
+        return ($model !== null) ? $model : false;
     }
 
     /**
@@ -220,7 +217,7 @@ class OauthTokens extends Model implements UserProviderInterface
             ->where('type','=',$type)
             ->first();
 
-        return (\is_object($model) == true) ? $model : false;
+        return ($model !== null) ? $model : false;
     }
 
     /**
@@ -234,7 +231,7 @@ class OauthTokens extends Model implements UserProviderInterface
     {
         $model = $this->where('resource_owner_id','=',$resouceId)->where('driver','=',$driver)->first();
 
-        return (\is_object($model) == true) ? $model : false;
+        return ($model !== null) ? $model : false;
     }
 
     /**
@@ -248,7 +245,7 @@ class OauthTokens extends Model implements UserProviderInterface
     public function saveUserId(string $accessToken, string $driver, int $userId): bool
     {
         $token = $this->getToken($accessToken,$driver);
-        if (\is_object($token) == false) {           
+        if ($token === false) {           
             return false;
         }
         $token->user_id = $userId;
@@ -272,16 +269,29 @@ class OauthTokens extends Model implements UserProviderInterface
      * Save access token
      *
      * @param string $token
-     * @param string $tokenSecret
+     * @param string|null $tokenSecret
      * @param string|null $refreshToken
      * @param string $driver
      * @param string resourceOwnerId
      * @param int|null $expire
      * @param integer $type
+     * @param string|null $scopes
      * @return Model|false
      */
-    public function saveToken($token, $tokenSecret, $driver, $resourceOwnerId, $expire = null, $type = Self::OAUTH1, $refreshToken = null)
+    public function saveToken(
+        string $token, 
+        ?string $tokenSecret, 
+        string $driver, 
+        $resourceOwnerId, 
+        ?int $expire = null, 
+        int $type = Self::OAUTH1, 
+        ?string $refreshToken = null,
+        ?int $userId = null,
+        ?string $scopes = null
+    )
     {
+        $resourceOwnerId = (empty($resourceOwnerId) == true) ? $userId : $resourceOwnerId;
+        
         $model = $this->findByResourceId($resourceOwnerId,$driver);
         if ($model !== false) {
            $model->delete(); 
@@ -297,7 +307,9 @@ class OauthTokens extends Model implements UserProviderInterface
             'driver'              => $driver,
             'type'                => $type,
             'date_expired'        => $expire,
-            'resource_owner_id'   => $resourceOwnerId
+            'resource_owner_id'   => $resourceOwnerId,
+            'scopes'              => $scopes,
+            'user_id'             => (empty($userId) == true) ? null : $userId
         ]);
     }
 }
