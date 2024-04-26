@@ -24,7 +24,7 @@
             <tr>
                 <td class="right aligned">{{ labels.token }}</td>
                 <td>
-                    {{ token.access_token|sliceText(10) }}...      
+                    {{ token.access_token|default('N/A')|sliceText(10) }}...      
                 </td>
             </tr>
             <tr>
@@ -40,7 +40,7 @@
             <tr>
                 <td class="right aligned">{{ labels.refresh }}</td>
                 <td>
-                    {{ token.refresh_token|sliceText(10) }}
+                    {{ token.refresh_token|default('N/A')|sliceText(10) }}
                 </td>
             </tr>   
             <tr>
@@ -80,7 +80,7 @@
             <tr>
                 <td class="right aligned">{{ labels.scope }}</td>
                 <td>
-                    {{ token.scopes }}
+                    {{ token.oauth_scopes }}
                 </td>
             </tr>  
         </tbody>  

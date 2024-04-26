@@ -160,6 +160,16 @@ class OauthTokens extends Model implements UserProviderInterface
     {
         return $this->isExpired();
     }
+    
+    /**
+     * Scopes attr
+     *
+     * @return mixed
+     */
+    public function getOauthScopesAttribute()
+    {
+        return $this->scopes;
+    }
 
     /**
      * Return true if token is expired

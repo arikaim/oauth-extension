@@ -30,7 +30,7 @@ class Oauth extends Extension
         $this->addPageRoute('/oauth/callback/{provider}[/{config}]','OauthPages','callback','oauth>oauth.success',null,'oauth.callback',false);
         $this->addPageRoute('/oauth/authentication/{provider}[/{action}[/{config}]]','OauthPages','authentication','oauth>oauth.authentication',null,'oauth.authentication',false);
         // Db tables
-        $this->createDbTable('OauthTokensSchema');  
+        $this->createDbTable('OauthTokens');  
         // Events
         $this->registerEvent('oauth.auth','OAuth authorize success');
         // Ssevice
