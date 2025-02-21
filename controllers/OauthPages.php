@@ -25,7 +25,7 @@ class OauthPages extends Controller
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
+     * @return mixed
     */
     public function callback($request, $response, $data) 
     { 
@@ -136,7 +136,7 @@ class OauthPages extends Controller
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param Validator $data
-     * @return Psr\Http\Message\ResponseInterface
+     * @return mixed
     */
     public function authentication($request, $response, $data) 
     { 

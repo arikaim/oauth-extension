@@ -27,16 +27,21 @@ class Oauth extends Extension
         $this->addApiRoute('DELETE','/api/admin/oauth/delete/{uuid}','OauthControlPanel','delete','session');      
         $this->addApiRoute('PUT','/api/admin/oauth/status','OauthControlPanel','setStatus','session');    
         // Pages
-        $this->addPageRoute('/oauth/callback/{provider}[/{config}]','OauthPages','callback','oauth>oauth.success',null,'oauth.callback',false);
-        $this->addPageRoute('/oauth/authentication/{provider}[/{action}[/{config}]]','OauthPages','authentication','oauth>oauth.authentication',null,'oauth.authentication',false);
-        // Db tables
-        $this->createDbTable('OauthTokens');  
+        $this->addPageRoute('/oauth/callback/{provider}[/{config}]','OauthPages','callback','current>oauth.success',null,'oauth.callback',false);
+        $this->addPageRoute('/oauth/authentication/{provider}[/{action}[/{config}]]','OauthPages','authentication','current>oauth.authentication',null,'oauth.authentication',false);
+       
         // Events
         $this->registerEvent('oauth.auth','OAuth authorize success');
         // Ssevice
         $this->registerService('OauthService');   
     }
     
+    public function dbInstall(): void
+    {         
+        // Db tables
+        $this->createDbTable('OauthTokens');  
+    }
+
     /**
      * UnInstall
      *

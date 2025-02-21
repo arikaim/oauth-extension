@@ -18,7 +18,9 @@ use Arikaim\Core\Db\Traits\Uuid;
 use Arikaim\Core\Db\Traits\Find;
 use Arikaim\Core\Db\Traits\Status;
 use Arikaim\Core\Db\Traits\DateCreated;
+use Arikaim\Core\Db\Traits\OptionsAttribute;
 use Arikaim\Core\Access\Traits\Auth;
+
 
 /**
  * OauthTokens model class
@@ -31,6 +33,7 @@ class OauthTokens extends Model implements UserProviderInterface
     use Uuid,    
         Status, 
         Auth,   
+        OptionsAttribute,
         DateCreated,   
         Find;
     
@@ -55,6 +58,8 @@ class OauthTokens extends Model implements UserProviderInterface
      */
     protected $fillable = [
         'access_token',
+        'session_id',
+        'options',
         'access_token_secret',
         'type',
         'resource_owner_id',
@@ -72,6 +77,18 @@ class OauthTokens extends Model implements UserProviderInterface
      * @var boolean
      */
     public $timestamps = false;
+
+    /**
+     * Find by session Id
+     * 
+     * @param mixed $query
+     * @param string $sessionId
+     * @return mixed
+     */
+    public function scopeSessionIdQuery($query, string $sessionId)
+    {
+        return $query->where('session_id','=',$sessionId);
+    }
 
     /**
      * Get user credentials

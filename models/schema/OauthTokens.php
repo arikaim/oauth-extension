@@ -41,16 +41,17 @@ class OauthTokens extends Schema
         $table->string('resource_owner_id')->nullable(true);  
         $table->string('refresh_token')->nullable(true);  
         $table->string('driver')->nullable(false);  
-        $table->text('scopes')->nullable(true);           
+        $table->text('scopes')->nullable(true);       
+        $table->string('session_id')->nullable(true);   
+        $table->options();     
         $table->userId();
         $table->dateCreated();
         $table->dateExpired();
         // index
-        $table->index('access_token');
-        $table->index('resource_owner_id');
         $table->unique(['access_token','driver']);
         $table->unique(['user_id','driver','type']);
         $table->unique(['resource_owner_id','driver']);
+        $table->unique(['session_id']);
     }
 
     /**
@@ -60,22 +61,21 @@ class OauthTokens extends Schema
      * @return void
      */
     public function update($table) 
-    {         
+    {  
+        if ($this->hasColumn('options') == false) {
+            $table->options();
+        } 
+
+        if ($this->hasColumn('session_id') == false) {
+            $table->string('session_id')->nullable(true);    
+        } 
+
         if ($this->hasColumn('access_token_secret') == false) {
             $table->string('access_token_secret')->nullable(true);    
-        }   
+        } 
+
         if ($this->hasColumn('scopes') == false) {
             $table->text('scopes')->nullable(true);     
         }     
-    }
-
-    /**
-     * Insert or update rows in table
-     *
-     * @param Seed $seed
-     * @return void
-     */
-    public function seeds($seed)
-    {       
     }
 }

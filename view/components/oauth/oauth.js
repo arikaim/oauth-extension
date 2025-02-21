@@ -26,6 +26,8 @@ function Oauth() {
             settings = 'location=no,toolbar=no,resizable=no,width=800,height=600,scrollbars=no,status=no,left=' + left + ',top=' + top;
         }
      
+        console.log(redirect);
+        
         redirectUrl = redirect;
         this.closeAuthWindow();
        
